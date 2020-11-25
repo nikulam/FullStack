@@ -1,5 +1,15 @@
 const express = require('express')
 const app = express()
+const morgan = require('morgan')
+
+app.use(express.json())
+
+morgan.token('body', function(req, res) {
+    if(req.method === "POST") {
+        return `{"name":"${req.body.name}","number":"${req.body.number}"}`
+    }
+})
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 let persons = [
     {
@@ -42,8 +52,61 @@ app.get('/api/persons/:id', (request, response) => {
     }
 })
 
+app.get('/info', (req, res) => {
+    const now = new Date()
+    res.send(`Phonebook has info for ${persons.length} people <br/><br/> ${now}`)
+})
 
-  const PORT = 3001
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
+const generateId = () => {
+    return (
+        Math.floor(Math.random() * 100000)
+    )
+}
+app.post('/api/persons', (req, res) => {
+    const body = req.body
+  
+    if (!body.name) {
+      return res.status(400).json({ 
+        error: 'name missing' 
+      })
+    }
+    if (!body.number) {
+        return res.status(400).json({
+            error: 'number missing'
+        })
+    }
+    if (persons.map(n => n.name).includes(body.name)) {
+        return res.status(400).json({
+            error: 'name must be unique'
+        })
+    }
+  
+    const person = {
+        id: generateId(),
+        name: body.name,
+        number: body.number,
+    }
+  
+    persons = persons.concat(person)
+  
+    res.json(person)
   })
+
+  app.delete('/api/persons/:id', (req, res) => {
+    const id = Number(req.params.id)
+    persons = persons.filter(n => n.id !== id)
+  
+    res.status(204).end()
+  })
+
+  const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint' })
+  }
+  
+  app.use(unknownEndpoint)
+
+
+const PORT = 3001
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+})
