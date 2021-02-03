@@ -1,0 +1,7 @@
+Nodemon: päivitykset heti voimaan. npm install --save-dev nodemon
+scripts: "dev": "nodemon index.js",
+npm run dev
+
+npm install cors, same origin policy
+
+npm run server

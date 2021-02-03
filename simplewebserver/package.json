@@ -1,0 +1,22 @@
+{
+  "name": "simpleweb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \\\"Error: no test specified\\\" && exit 1",
+    "server": "json-server -p3001 --watch db.json"
+  },
+  "author": "Miro",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "json-server": "^0.16.3",
+    "nodemon": "^2.0.7"
+  }
+}
