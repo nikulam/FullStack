@@ -16,7 +16,7 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :b
 let persons = [
     {
        id: 1,
-       name: "Arto HellasSS",
+       name: "Arto Hellas",
        number: "040-123456"
    },
    {
