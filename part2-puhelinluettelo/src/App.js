@@ -44,6 +44,21 @@ const App = () => {
     if(persons.map(n => n.name).includes(newName) && persons.map(n => n.number).includes(newNumber)) {
       alert(`${newName} is already added to phonebook`)
     }
+    else if(persons.map(n => n.name).includes(newName)) {
+      const found = persons.filter(n => n.name == newName)[0]
+      const updatedPerson = {name: newName, number: newNumber, id: found.id}
+      setMessage("Updated " + updatedPerson.name)
+      setTimeout(() => {
+
+        setMessage(null)
+      }, 3000)
+
+      setPersons(persons.filter(n => n.id != found.id).concat(updatedPerson))      
+
+      personService
+        .update(found.id, updatedPerson)
+        .then(console.log(updatedPerson))
+    }
     
     else {
       const newPerson = {name: newName, number: newNumber}
