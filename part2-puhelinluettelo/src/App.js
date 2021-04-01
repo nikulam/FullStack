@@ -54,6 +54,7 @@ const App = () => {
       }, 3000)
 
       setPersons(persons.filter(n => n.id != found.id).concat(updatedPerson))      
+      console.log(updatedPerson)
 
       personService
         .update(found.id, updatedPerson)
