@@ -41,6 +41,8 @@ const App = () => {
   const handleSubmit = (e) => {
     const person = persons.find((n) => n.name === newName)
 
+    console.log("TOIMINYT")
+
     persons.forEach(n => console.log(n))
 
     if(persons.map(n => n.name).includes(newName) && persons.map(n => n.number).includes(newNumber)) {
