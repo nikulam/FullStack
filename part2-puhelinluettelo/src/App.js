@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Search from "./components/Search"
 import Persons from "./components/Persons"
 import FilterNames from "./components/FilterNames"
-import personService from './services/persons'
+import personService from './services/persons.js'
 import Notification from "./components/Notification"
 import "./index.css"
 
@@ -41,6 +41,8 @@ const App = () => {
   const handleSubmit = (e) => {
     const person = persons.find((n) => n.name === newName)
 
+    persons.forEach(n => console.log(n))
+
     if(persons.map(n => n.name).includes(newName) && persons.map(n => n.number).includes(newNumber)) {
       alert(`${newName} is already added to phonebook`)
     }
@@ -54,7 +56,6 @@ const App = () => {
       }, 3000)
 
       setPersons(persons.filter(n => n.id != found.id).concat(updatedPerson))      
-      console.log(updatedPerson)
 
       personService
         .update(found.id, updatedPerson)

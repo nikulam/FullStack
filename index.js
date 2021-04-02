@@ -5,6 +5,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const Person = require('./models/person')
+//const { default: persons } = require('./part2-puhelinluettelo/src/services/persons.js')
 
 app.use(cors())
 app.use(express.json())
@@ -59,7 +60,6 @@ app.get('/info', (req, res) => {
 app.post('/api/persons', (req, res, next) => {
     const body = req.body
 
-    console.log(persons)
   
     if (!body.name) {
         return res.status(400).send({ 
