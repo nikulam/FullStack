@@ -58,6 +58,8 @@ app.get('/info', (req, res) => {
 }*/
 app.post('/api/persons', (req, res, next) => {
     const body = req.body
+
+    console.log(persons)
   
     if (!body.name) {
         return res.status(400).send({ 
