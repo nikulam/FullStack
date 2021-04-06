@@ -5,6 +5,7 @@ import FilterNames from "./components/FilterNames"
 import personService from './services/persons.js'
 import Notification from "./components/Notification"
 import "./index.css"
+import { set } from 'mongoose'
 
 const App = () => {
   const [ persons, setPersons] = useState([]) 
@@ -41,8 +42,6 @@ const App = () => {
   const handleSubmit = (e) => {
     const person = persons.find((n) => n.name === newName)
 
-    console.log("TOIMINYT")
-
     persons.forEach(n => console.log(n))
 
     if(persons.map(n => n.name).includes(newName) && persons.map(n => n.number).includes(newNumber)) {
@@ -53,7 +52,6 @@ const App = () => {
       const updatedPerson = {name: newName, number: newNumber, id: found.id}
       setMessage("Updated " + updatedPerson.name)
       setTimeout(() => {
-
         setMessage(null)
       }, 3000)
 
@@ -65,18 +63,22 @@ const App = () => {
     }
     
     else {
-      const newPerson = {name: newName, number: newNumber}
-      setMessage("Added " + newPerson.name)
-      setTimeout(() => {
-
-        setMessage(null)
-      }, 3000)
-      setPersons(persons.concat(newPerson))
+      const newPerson = {name: newName, number: newNumber}      
       
       personService
         .create(newPerson)
         .then(response => {
-      })
+          setMessage("Added " + newPerson.name)
+          setPersons(persons.concat(newPerson))
+        })
+        .catch(error => {
+          setMessage(error.response.data.error)
+          console.log(error.response.data.error)
+        })
+
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
     }
     e.preventDefault()
   }
